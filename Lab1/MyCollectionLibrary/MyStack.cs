@@ -13,10 +13,15 @@ public class MyStack<T> : IEnumerable<T>
 
     private Item? _top;
 
+    public event EventHandler<T>? OnItemAdded;
+    public event EventHandler<T>? OnItemRemoved;
+    public event EventHandler? OnClear;
+
     public void Push(T item)
     {
-        var newItem = new Item { Data = item, Next = _top };
-        _top = newItem;        
+        var newItem = new Item { Data = item, Next = _top };        
+        _top = newItem;
+        OnItemAdded?.Invoke(this, item);
     }
 
     public T Pop()
@@ -25,7 +30,8 @@ public class MyStack<T> : IEnumerable<T>
             throw new InvalidOperationException("Stack is empty.");
 
         T data = _top.Data;
-        _top = _top.Next;        
+        _top = _top.Next;
+        OnItemRemoved?.Invoke(this, data);
         return data;
     }
 
@@ -44,7 +50,8 @@ public class MyStack<T> : IEnumerable<T>
 
     public void Clear()
     {
-        _top = null;        
+        _top = null;
+        OnClear?.Invoke(this, EventArgs.Empty);
     }
 
     public bool Contains(T item)
