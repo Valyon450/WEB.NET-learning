@@ -24,6 +24,10 @@ if (isContains)
 else
     Console.WriteLine("Item 3 is not in the collection");
 
+Console.WriteLine("stack.ToString()");
+var stackString = stack.ToString();
+Console.WriteLine(stack.GetType());
+
 Console.WriteLine("Stack contents:");
 foreach (var item in stack)
 {
